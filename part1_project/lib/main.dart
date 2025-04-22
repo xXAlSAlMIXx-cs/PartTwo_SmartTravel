@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-
+            Text('haha'),
             // Welcome Section
             const Text(
               "Welcome to your next adventure!",

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'loginPage.dart';
+
 void main() {
   runApp(const TravelApp());
 }
@@ -52,7 +54,13 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()), // 👈 navigate to LoginPage
+                );
+
+              },
               child: const Text("Login"),
             ),
           ),

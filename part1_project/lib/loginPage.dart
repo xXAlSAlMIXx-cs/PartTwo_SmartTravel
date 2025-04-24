@@ -50,25 +50,22 @@ class LoginPage extends StatelessWidget {
                             topLeft: Radius.circular(60),
                             topRight: Radius.circular(60))),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(40,90,40,200),
+                      padding: const EdgeInsets.fromLTRB(40, 90, 40, 200),
                       child: Expanded(
                           child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(10)
-
-                            ),
-
-                            child: Form(
-
-                                                  child: Column(
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Form(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(14),
-
                                 child: TextFormField(
-                                  decoration: InputDecoration(labelText: 'Username'),
+                                  decoration: InputDecoration(
+                                      labelText: 'Username',
+                                      border: OutlineInputBorder()),
                                   validator: (value) => value!.isEmpty
                                       ? 'Please enter your username'
                                       : null,
@@ -76,7 +73,8 @@ class LoginPage extends StatelessWidget {
                               ),
                               SizedBox(height: 20),
                               TextFormField(
-                                decoration: InputDecoration(labelText: 'Password'),
+                                decoration:
+                                    InputDecoration(labelText: 'Password'),
                                 obscureText: true,
                                 validator: (value) => value!.isEmpty
                                     ? 'Please enter your password'
@@ -88,9 +86,9 @@ class LoginPage extends StatelessWidget {
                                 child: Text('Login'),
                               ),
                             ],
-                                                  ),
-                                                ),
-                          )),
+                          ),
+                        ),
+                      )),
                     )))
           ],
         ),

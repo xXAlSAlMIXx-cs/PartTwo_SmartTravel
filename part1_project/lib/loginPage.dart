@@ -46,13 +46,11 @@ class LoginPage extends StatelessWidget {
             Expanded(
                 child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(60),
-                            topRight: Radius.circular(60)
-
-                        ),
-                              ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(60),
+                          topRight: Radius.circular(60)),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(40, 90, 40, 200),
                       child: Expanded(
@@ -77,11 +75,16 @@ class LoginPage extends StatelessWidget {
                                   child: TextFormField(
                                       decoration: InputDecoration(
                                     labelText: 'UserName',
-                                          filled: true,
-                                          fillColor: Colors.grey[200], // background color like in the image
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10), // rounded border
-                                            borderSide: BorderSide(color: Colors.deepPurple),), // border color
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                    // background color like in the image
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      // rounded border
+                                      borderSide:
+                                          BorderSide(color: Colors.deepPurple),
+                                    ),
+                                    // border color
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide(
@@ -106,11 +109,16 @@ class LoginPage extends StatelessWidget {
                                   child: TextFormField(
                                       decoration: InputDecoration(
                                     labelText: 'Password',
-                                          filled: true,
-                                          fillColor: Colors.grey[200], // background color like in the image
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10), // rounded border
-                                            borderSide: BorderSide(color: Colors.deepPurple),), // border color)
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                    // background color like in the image
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      // rounded border
+                                      borderSide:
+                                          BorderSide(color: Colors.deepPurple),
+                                    ),
+                                    // border color)
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide(
@@ -119,30 +127,47 @@ class LoginPage extends StatelessWidget {
                                   )),
                                 ),
                               ),
-
-
                               SizedBox(height: 30),
                               SizedBox(
-
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orange, // Button background color
-                                    foregroundColor: Colors.white,  // Text (label) color
-                                    padding: EdgeInsets.symmetric(vertical: 16), // Optional: makes it taller
+                                    backgroundColor: Colors.orange,
+                                    // Button background color
+                                    foregroundColor: Colors.white,
+                                    // Text (label) color
+                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    // Optional: makes it taller
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30), // Optional: rounded corners
+                                      borderRadius: BorderRadius.circular(
+                                          30), // Optional: rounded corners
                                     ),
                                   ),
                                   onPressed: () {},
-                                  child: Text('Login',style:TextStyle(fontWeight: FontWeight.bold),),
+                                  child: Text(
+                                    'Login',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      )),
-                    )))
+                      ),
+
+
+                      ),
+
+
+                    )
+
+                ),
+
+
+
+
+            )
           ],
         ),
       ),

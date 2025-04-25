@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -10,18 +9,20 @@ class LoginPage extends StatelessWidget {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            gradient: LinearGradient(begin: Alignment.topCenter, colors: [
-          Colors.orange[900] ?? Colors.deepOrange,
-          Colors.orange[600] ?? Colors.orange,
-          Colors.orange[300] ?? Colors.orangeAccent
-        ])),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              Colors.orange[900] ?? Colors.deepOrange,
+              Colors.orange[600] ?? Colors.orange,
+              Colors.orange[300] ?? Colors.orangeAccent
+            ],
+          ),
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 80,
-            ),
-            Padding(
+            // Header section
+            const SizedBox(height: 80),
+            const Padding(
               padding: EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,145 +31,135 @@ class LoginPage extends StatelessWidget {
                     "Login",
                     style: TextStyle(color: Colors.white, fontSize: 40),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10),
                   Text(
                     "Welcome Back",
                     style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
+                  ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
+
+            // Main content area with white background
             Expanded(
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(60),
-                          topRight: Radius.circular(60)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(40, 90, 40, 200),
-                      child: Expanded(
-                          child: Container(
-                        child: Form(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(14),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey.shade400,
-                                            spreadRadius: 8,
-                                            blurRadius: 10,
-                                            offset: Offset(4, 4))
-                                      ]),
-                                  child: TextFormField(
-                                      decoration: InputDecoration(
-                                    labelText: 'UserName',
-                                    filled: true,
-                                    fillColor: Colors.grey[200],
-                                    // background color like in the image
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      // rounded border
-                                      borderSide:
-                                          BorderSide(color: Colors.deepPurple),
-                                    ),
-                                    // border color
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide(
-                                          color: Colors.deepPurple, width: 2),
-                                    ),
-                                  )),
-                                ),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(60),
+                    topRight: Radius.circular(60),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 60, 30, 30),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 30),
+
+                        // Username input
+                        buildInputField(
+                          labelText: 'Username',
+                          isPassword: false,
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Password input
+                        buildInputField(
+                          labelText: 'Password',
+                          isPassword: true,
+                        ),
+                        const SizedBox(height: 40),
+
+                        // Login button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange[700],
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(14),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey.shade400,
-                                            spreadRadius: 8,
-                                            blurRadius: 10,
-                                            offset: Offset(4, 4))
-                                      ]),
-                                  child: TextFormField(
-                                      decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    filled: true,
-                                    fillColor: Colors.grey[200],
-                                    // background color like in the image
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      // rounded border
-                                      borderSide:
-                                          BorderSide(color: Colors.deepPurple),
-                                    ),
-                                    // border color)
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide(
-                                          color: Colors.deepPurple, width: 2),
-                                    ),
-                                  )),
-                                ),
+                              elevation: 3,
+                            ),
+                            onPressed: () {
+                              // Login logic goes here
+                            },
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
-                              SizedBox(height: 30),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orange,
-                                    // Button background color
-                                    foregroundColor: Colors.white,
-                                    // Text (label) color
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                    // Optional: makes it taller
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          30), // Optional: rounded corners
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  child: Text(
-                                    'Login',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
 
-
-                      ),
-
-
-                    )
-
+                        // Forgot password link
+                        const SizedBox(height: 20),
+                        TextButton(
+                          onPressed: () {
+                            // Forgot password logic
+                          },
+                          child: Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: Colors.orange[800],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-
-
-
-
-            )
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // Extracted method for input fields to reduce redundancy
+  Widget buildInputField({
+    required String labelText,
+    bool isPassword = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextFormField(
+        obscureText: isPassword,
+        decoration: InputDecoration(
+          labelText: labelText,
+          filled: true,
+          fillColor: Colors.grey[100],
+          prefixIcon: Icon(
+            isPassword ? Icons.lock_outline : Icons.person_outline,
+            color: Colors.orange[700],
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.orange[200]!),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.orange[700]!, width: 2),
+          ),
         ),
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'loginPage.dart';
+
 void main() {
   runApp(const TravelApp());
 }
@@ -52,7 +54,13 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()), // 👈 navigate to LoginPage
+                );
+
+              },
               child: const Text("Login"),
             ),
           ),
@@ -104,7 +112,7 @@ class _HomePageState extends State<HomePage> {
             // Banner with Plane
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Container(
+              child: SizedBox(
                 height: 130,
                 width: double.infinity,
                 child: Stack(
@@ -211,7 +219,7 @@ class _HomePageState extends State<HomePage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey,
               blurRadius: 10,
             ),
           ],
@@ -275,7 +283,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: 150,
               padding: const EdgeInsets.symmetric(vertical: 8),
-              color: Colors.black.withOpacity(0.6),
+              color: Colors.black,
               child: Text(
                 text,
                 textAlign: TextAlign.center,
@@ -308,7 +316,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 6),
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black,
               child: Text(
                 text,
                 textAlign: TextAlign.center,

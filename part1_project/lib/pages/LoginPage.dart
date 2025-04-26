@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:part1_project/pages/mainPage.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +23,12 @@ class LoginPage extends StatelessWidget {
             colors: [
               Colors.orange[900] ?? Colors.deepOrange,
               Colors.orange[600] ?? Colors.orange,
-              Colors.orange[300] ?? Colors.orangeAccent
+              Colors.orange[300] ?? Colors.orangeAccent,
             ],
           ),
         ),
         child: Column(
           children: [
-            // Header section
             const SizedBox(height: 80),
             const Padding(
               padding: EdgeInsets.all(20),
@@ -40,8 +48,6 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-
-            // Main content area with white background
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
@@ -57,22 +63,18 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: 30),
-
-                        // Username input
                         buildInputField(
-                          labelText: 'Username',
+                          controller: _usernameController,
+                          labelText: 'Username or email',
                           isPassword: false,
                         ),
                         const SizedBox(height: 20),
-
-                        // Password input
                         buildInputField(
+                          controller: _passwordController,
                           labelText: 'Password',
                           isPassword: true,
                         ),
                         const SizedBox(height: 40),
-
-                        // Login button
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -86,7 +88,50 @@ class LoginPage extends StatelessWidget {
                               elevation: 3,
                             ),
                             onPressed: () {
-                              // Login logic goes here
+                              String username = _usernameController.text.trim();
+                              String password = _passwordController.text.trim();
+
+                              if (username.isEmpty || password.isEmpty) {
+                                ScaffoldMessenger.of(context).showMaterialBanner(
+                                  MaterialBanner(
+                                    content: const Text('Please fill in all fields.'),
+                                    leading: const Icon(Icons.error_outline, color: Colors.red),
+                                    backgroundColor: Colors.red[50],
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                                        },
+                                        child: const Text('DISMISS'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showMaterialBanner(
+                                  MaterialBanner(
+                                    content: const Text('Username entered successfully!'),
+                                    leading: const Icon(Icons.check_circle, color: Colors.green),
+                                    backgroundColor: Colors.green[50],
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                                        },
+                                        child: const Text('DISMISS'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const HomePage()),
+                                  );
+                                });
+                              }
                             },
                             child: const Text(
                               'Login',
@@ -97,13 +142,9 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-
-                        // Forgot password link
                         const SizedBox(height: 20),
                         TextButton(
-                          onPressed: () {
-                            // Forgot password logic
-                          },
+                          onPressed: () {},
                           child: Text(
                             'Forgot Password?',
                             style: TextStyle(
@@ -124,8 +165,8 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  // Extracted method for input fields to reduce redundancy
   Widget buildInputField({
+    required TextEditingController controller,
     required String labelText,
     bool isPassword = false,
   }) {
@@ -143,6 +184,7 @@ class LoginPage extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
           labelText: labelText,
@@ -163,5 +205,12 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

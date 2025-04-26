@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:part1_project/pages/explore.dart';
 import 'package:part1_project/pages/countryActivities.dart';
+import 'package:part1_project/pages/LoginPage.dart';
 
 // import 'package:part2_project/pages/page4.dart';
 // import 'package:part2_project/pages/page5.dart';
@@ -59,7 +60,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()), // 👈 navigate to LoginPage
+                  );
+                },
                 child: const Text("Login"),
               ),
               IconButton(

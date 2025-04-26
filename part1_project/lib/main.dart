@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:part1_project/pages/mainPage.dart';
 
 import 'loginPage.dart';
 
 void main() {
-  runApp(const TravelApp());
+  runApp(const MyApp());
 }
 
-class TravelApp extends StatelessWidget {
-  const TravelApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,6 @@ class TravelApp extends StatelessWidget {
     );
   }
 }
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 

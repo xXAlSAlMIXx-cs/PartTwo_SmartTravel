@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:part1_project/pages/about_us.dart'; // Import the AboutUsPage
 
+import 'package:part1_project/pages/mainPage.dart';
+
+import 'loginPage.dart';
+
+
 void main() {
-  runApp(const TravelApp());
+  runApp(const MyApp());
 }
 
-class TravelApp extends StatelessWidget {
-  const TravelApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,6 @@ class TravelApp extends StatelessWidget {
     );
   }
 }
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -66,6 +70,14 @@ class _HomePageState extends State<HomePage> {
                 print("Login button pressed");
               },
               child: const Text("Login"), // Button labeled "Login"
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()), // 👈 navigate to LoginPage
+                );
+
+              },
+              child: const Text("Login"),
             ),
           ),
         ],
@@ -219,7 +231,7 @@ class _HomePageState extends State<HomePage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey,
               blurRadius: 10,
             ),
           ],
@@ -288,7 +300,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: 150,
               padding: const EdgeInsets.symmetric(vertical: 8),
-              color: Colors.black.withOpacity(0.6),
+              color: Colors.black,
               child: Text(
                 text,
                 textAlign: TextAlign.center,
@@ -321,7 +333,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 6),
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black,
               child: Text(
                 text,
                 textAlign: TextAlign.center,

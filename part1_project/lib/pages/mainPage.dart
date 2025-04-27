@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:part1_project/pages/explore.dart';
 import 'package:part1_project/pages/countryActivities.dart';
+import 'package:part1_project/pages/loginPage.dart';
+import 'package:part1_project/pages/profile_page.dart';
+import 'package:part1_project/pages/about_us.dart';
+import 'package:part1_project/models/user_model.dart';
 
 // import 'package:part2_project/pages/page4.dart';
 // import 'package:part2_project/pages/page5.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
+  UserModel? _currentUser;
 
   @override
   void initState() {
@@ -48,29 +53,43 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         centerTitle: true,
         leading: Icon(Icons.view_list_outlined),
         actions: <Widget>[
-          Row(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.deepOrange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+          if (_currentUser == null) // Only show login button when user is not logged in
+            Row(
+              children: <Widget>[
+                Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.deepOrange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    ).then((user) {
+                      if (user != null) {
+                        setState(() {
+                          _currentUser = user as UserModel;
+                        });
+                      }
+                    });
+                  },
+                  child: const Text("Login"),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.notifications_active_sharp),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
                   ),
                 ),
-                onPressed: () {},
-                child: const Text("Login"),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.notifications_active_sharp),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
       body: TabBarView(
@@ -217,7 +236,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
           Explore(),
           CountryActivities(),
-          Placeholder(),
+          const AboutUsPage(),
           Placeholder(),
 
         ],
@@ -243,13 +262,43 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             Tab(icon: Icon(Icons.home_rounded)),
             Tab(icon: Icon(Icons.public)),
             Tab(icon: Icon(Icons.add)),
-            Tab(icon: Icon(Icons.abc)),
+            Tab(icon: Icon(Icons.info_outline)),
             Tab(icon: Icon(Icons.person_outlined)),
           ],
           onTap: (index) {
-            setState(() {
-              _selectedIndex = index; // Update the selected index
-            });
+            if (index == 4) { // Profile tab
+              if (_currentUser != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(user: _currentUser!),
+                  ),
+                ).then((updatedUser) {
+                  if (updatedUser != null) {
+                    setState(() {
+                      _currentUser = updatedUser as UserModel;
+                    });
+                  }
+                });
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
+                ).then((user) {
+                  if (user != null) {
+                    setState(() {
+                      _currentUser = user as UserModel;
+                    });
+                  }
+                });
+              }
+            } else {
+              setState(() {
+                _selectedIndex = index; // Update the selected index
+              });
+            }
           },
         ),
       ),

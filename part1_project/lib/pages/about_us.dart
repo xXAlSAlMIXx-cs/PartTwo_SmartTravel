@@ -41,11 +41,11 @@ class AboutUsPage extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'Email: support@smarttravel.com',
+              'Email: s133334@student.squ.edu.om \nEmail: s137205@student.squ.edu.om \nEmail: s134434@student.squ.edu.om',
               style: TextStyle(fontSize: 16),
             ),
             Text(
-              'Phone: +1 234 567 890',
+              'Phone: +968 9099 1216',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 16),

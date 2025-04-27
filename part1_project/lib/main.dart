@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:part1_project/pages/about_us.dart'; // Import the AboutUsPage
+
 import 'package:part1_project/pages/mainPage.dart';
 
 import 'loginPage.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +35,14 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // Navigate to AboutUsPage if "About Us" is selected
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AboutUsPage()),
+      );
+    }
   }
 
   @override
@@ -55,6 +66,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onPressed: () {
+                // Navigate to Login Page (placeholder functionality)
+                print("Login button pressed");
+              },
+              child: const Text("Login"), // Button labeled "Login"
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()), // 👈 navigate to LoginPage
@@ -148,10 +164,8 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-            )
-
-
-            ,  const SizedBox(height: 30),
+            ),
+            const SizedBox(height: 30),
 
             // Categories
             const Text(
@@ -162,7 +176,6 @@ class _HomePageState extends State<HomePage> {
 
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
-
               child: SizedBox(
                 height: 130,
                 child: ListView(
@@ -174,7 +187,6 @@ class _HomePageState extends State<HomePage> {
                     buildRoundedImageCard("images/Dining.jpg", "Dining"),
                   ],
                 ),
-
               ),
             ),
 
@@ -227,17 +239,15 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            buildNavIcon(Icons.home_rounded, 0),
-            buildNavIcon(Icons.notifications_none_rounded, 1),
-            buildNavIcon(Icons.bookmark_border_rounded, 2),
-            buildNavIcon(Icons.person_outline_rounded, 3),
+            buildNavIcon(Icons.home_rounded, 0, "Home"),
+            buildNavIcon(Icons.info_outline, 1, "About Us"),
           ],
         ),
       ),
     );
   }
 
-  Widget buildNavIcon(IconData icon, int index) {
+  Widget buildNavIcon(IconData icon, int index, String label) {
     final isSelected = _selectedIndex == index;
 
     return GestureDetector(
@@ -250,6 +260,13 @@ class _HomePageState extends State<HomePage> {
             icon,
             size: 28,
             color: isSelected ? Colors.deepOrange : Colors.grey[400],
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: isSelected ? Colors.deepOrange : Colors.grey[400],
+            ),
           ),
           if (isSelected)
             Container(

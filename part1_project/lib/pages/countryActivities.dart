@@ -23,6 +23,9 @@ class _CountryActivitiesState extends State<CountryActivities> {
   List<String> selectedActivities = [];
   final List<String> activities = ['Aquarium', 'Mall Shopping', 'Teleferik'];
 
+  String? selectedGender;
+  final List<String> genders = ['Male', 'Female'];
+
   bool _isImageFile(String path) {
     final ext = path.toLowerCase();
     return ext.endsWith('.jpg') || ext.endsWith('.jpeg') || ext.endsWith('.png');
@@ -60,7 +63,7 @@ class _CountryActivitiesState extends State<CountryActivities> {
   bool _validateForm() {
     final isValid = _formKey.currentState?.validate() ?? false;
 
-    if (!isValid || selectedActivities.isEmpty || selectedDate == null) {
+    if (!isValid || selectedActivities.isEmpty || selectedDate == null || selectedGender == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please complete all fields!')),
       );
@@ -78,6 +81,7 @@ class _CountryActivitiesState extends State<CountryActivities> {
         title: Text('Confirmation'),
         content: Text(
           'Country: $selectedCountry\n'
+              'Gender: $selectedGender\n'
               'Activities: ${selectedActivities.join(", ")}\n'
               'Date: ${selectedDate?.toLocal().toString().split(' ')[0]}\n'
               'You have submitted a file or image',
@@ -113,6 +117,8 @@ class _CountryActivitiesState extends State<CountryActivities> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+
+                  // Country Dropdown list
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       labelText: "Select a country",
@@ -129,9 +135,33 @@ class _CountryActivitiesState extends State<CountryActivities> {
                     onChanged: (value) => setState(() => selectedCountry = value),
                     validator: (value) => value == null ? 'Please select a country' : null,
                   ),
-                  const SizedBox(height: 20),
-                  Text('Select Activities:', style: TextStyle(fontWeight: FontWeight.bold)),
 
+                  const SizedBox(height: 20),
+
+                  // Gender Radio Buttons
+                  Text('Select Gender:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Column(
+                    children: genders.map((gender) => RadioListTile<String>(
+                      title: Text(gender),
+                      value: gender,
+                      groupValue: selectedGender,
+                      onChanged: (String? value) {
+                        setState(() {
+                          selectedGender = value;
+                        });
+                      },
+                    )).toList(),
+                  ),
+                  if (selectedGender == null)
+                    Padding(
+                      padding: EdgeInsets.only(left: 12.0, top: 4),
+                      child: Text('Please select your gender', style: TextStyle(color: Colors.red)),
+                    ),
+
+                  const SizedBox(height: 20),
+
+                  // Activities Checkboxes
+                  Text('Select Activities:', style: TextStyle(fontWeight: FontWeight.bold)),
                   ...activities.map((activity) => CheckboxListTile(
                     title: Text(activity),
                     value: selectedActivities.contains(activity),
@@ -153,6 +183,7 @@ class _CountryActivitiesState extends State<CountryActivities> {
 
                   const SizedBox(height: 20),
 
+                  // Date Picker
                   ElevatedButton.icon(
                     onPressed: _pickDate,
                     icon: Icon(Icons.calendar_today),
@@ -172,6 +203,7 @@ class _CountryActivitiesState extends State<CountryActivities> {
 
                   const SizedBox(height: 20),
 
+                  // File Picker
                   ElevatedButton.icon(
                     onPressed: _pickFile,
                     icon: Icon(Icons.upload_file),
@@ -200,6 +232,7 @@ class _CountryActivitiesState extends State<CountryActivities> {
 
                   const SizedBox(height: 30),
 
+                  // Confirm Button
                   Center(
                     child: ElevatedButton.icon(
                       onPressed: _confirmSelection,

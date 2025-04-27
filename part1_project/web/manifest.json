@@ -1,6 +1,6 @@
 {
-    "name": "part1_project",
-    "short_name": "part1_project",
+    "name": "part2_project",
+    "short_name": "part2_project",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

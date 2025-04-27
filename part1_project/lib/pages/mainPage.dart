@@ -1,59 +1,84 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:part1_project/pages/explore.dart';
-import 'package:part1_project/pages/countryActivities.dart';
-import 'package:part1_project/pages/loginPage.dart';
-import 'package:part1_project/pages/profile_page.dart';
-import 'package:part1_project/pages/about_us.dart';
-import 'package:part1_project/models/user_model.dart';
+import 'package:part2_project/pages/LoginPage.dart';
+import 'package:part2_project/pages/explore.dart';
+import 'package:part2_project/pages/countryActivities.dart';
+import 'package:part2_project/pages/profile_page.dart';
+import 'package:part2_project/pages/about_us.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user_model.dart';
 
-// import 'package:part2_project/pages/page4.dart';
-// import 'package:part2_project/pages/page5.dart';
-
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
   UserModel? _currentUser;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); // Add scaffold key
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this); // Now we have 5 tabs
+    _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(_tabChanged);
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    String? email = prefs.getString('email');
+    String? profileImageBase64 = prefs.getString('profileImage');
+
+    if (username != null && email != null) {
+      setState(() {
+        _currentUser = UserModel(
+          username: username,
+          email: email,
+          profileImageBytes: profileImageBase64 != null ? base64Decode(profileImageBase64) : null,
+          location: null,
+        );
+      });
+    }
   }
 
   void _tabChanged() {
     if (_tabController.indexIsChanging) {
       setState(() {
-        _selectedIndex = _tabController.index; // Update the selected tab index
+        _selectedIndex = _tabController.index;
       });
     }
   }
 
   @override
   void dispose() {
-    _tabController.dispose(); // Dispose of the TabController
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Set the scaffold key
       backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
         elevation: 0,
         title: Image.asset("images/logo.png", height: 70),
         centerTitle: true,
-        leading: Icon(Icons.view_list_outlined),
+        leading: IconButton(
+          icon: Icon(Icons.list_rounded),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer(); // Open drawer on tap
+          },
+        ),
         actions: <Widget>[
-          if (_currentUser == null) // Only show login button when user is not logged in
+          if (_currentUser == null)
             Row(
               children: <Widget>[
                 Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
@@ -69,7 +94,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
+                        builder: (context) => LoginPage(),
                       ),
                     ).then((user) {
                       if (user != null) {
@@ -92,17 +117,82 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
             ),
         ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.deepOrange,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.person, size: 40, color: Colors.deepOrange),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    _currentUser != null ? _currentUser!.username : "Welcome $_currentUser",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+                _tabController.index = 0;
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.public),
+              title: Text('Explore'),
+              onTap: () {
+                Navigator.pop(context);
+                _tabController.index = 1;
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.add),
+              title: Text('Activities'),
+              onTap: () {
+                Navigator.pop(context);
+                _tabController.index = 2;
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info_outline),
+              title: Text('About Us'),
+              onTap: () {
+                Navigator.pop(context);
+                _tabController.index = 3;
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.pop(context);
+                _tabController.index = 4;
+              },
+            ),
+          ],
+        ),
+      ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          // Keep your original HomePage body here for the first tab
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 20),
-                // Welcome Section
                 const Text(
                   "Welcome to your next adventure!",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -112,8 +202,6 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 const SizedBox(height: 20),
-
-                // Search Bar
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
@@ -135,10 +223,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 30),
-
-                // Banner with Plane
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Container(
@@ -147,29 +232,26 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        // Background (smaller, behind)
                         ClipRRect(
                           borderRadius: BorderRadius.horizontal(
                             left: Radius.circular(100),
                             right: Radius.circular(100),
                           ),
                           child: Image.asset(
-                            'images/cloude2.jpg', // Your smaller image
-                            width: 250, // Smaller width
+                            'images/cloude2.jpg',
+                            width: 250,
                             height: 130,
                             fit: BoxFit.cover,
                           ),
                         ),
-
-                        // Foreground (larger, in front)
                         ClipRRect(
                           borderRadius: BorderRadius.horizontal(
                             left: Radius.circular(100),
                             right: Radius.circular(100),
                           ),
                           child: Image.asset(
-                            'images/plane4.png', // Your bigger image
-                            width: 550, // Bigger width
+                            'images/plane4.png',
+                            width: 550,
                             height: 350,
                             fit: BoxFit.cover,
                           ),
@@ -178,16 +260,12 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 30),
-
-                // Categories
                 const Text(
                   "Categories",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 10),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: SizedBox(
@@ -203,10 +281,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 30),
-
-                // Featured Deals
                 const Text(
                   "Featured Deals",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -216,8 +291,6 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                 buildActivity("images/activity2.jpg", "Tokyo Explorer Tour"),
                 buildActivity("images/activity3.jpg", "Morocco Adventure"),
                 const SizedBox(height: 30),
-
-                // Activities Section
                 const Text(
                   "Top Activities",
                   style: TextStyle(
@@ -227,18 +300,15 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   ),
                 ),
                 const SizedBox(height: 20),
-
                 buildActivity("images/activity1.jpg", "Camel Safari - Dubai"),
                 buildActivity("images/activity4.jpg", "Italian Cuisine Tour"),
               ],
             ),
           ),
-
           Explore(),
           CountryActivities(),
-          const AboutUsPage(),
-          Placeholder(),
-
+          AboutUsPage(),
+          _currentUser != null ? ProfilePage(user: _currentUser!) : LoginPage(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -262,74 +332,15 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
             Tab(icon: Icon(Icons.home_rounded)),
             Tab(icon: Icon(Icons.public)),
             Tab(icon: Icon(Icons.add)),
-            Tab(icon: Icon(Icons.info_outline)),
+            Tab(icon: Icon(Icons.info_outline)), // Changed from Icons.abc
             Tab(icon: Icon(Icons.person_outlined)),
           ],
           onTap: (index) {
-            if (index == 4) { // Profile tab
-              if (_currentUser != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfilePage(user: _currentUser!),
-                  ),
-                ).then((updatedUser) {
-                  if (updatedUser != null) {
-                    setState(() {
-                      _currentUser = updatedUser as UserModel;
-                    });
-                  }
-                });
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                ).then((user) {
-                  if (user != null) {
-                    setState(() {
-                      _currentUser = user as UserModel;
-                    });
-                  }
-                });
-              }
-            } else {
-              setState(() {
-                _selectedIndex = index; // Update the selected index
-              });
-            }
+            setState(() {
+              _selectedIndex = index;
+            });
           },
         ),
-      ),
-    );
-  }
-
-  // Navigation icon logic
-  Widget buildNavIcon(IconData icon, int index) {
-    final isSelected = _selectedIndex == index;
-    return GestureDetector(
-      onTap: () => _tabChanged(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 28,
-            color: isSelected ? Colors.deepOrange : Colors.grey[400],
-          ),
-          if (isSelected)
-            Container(
-              margin: const EdgeInsets.only(top: 4),
-              width: 6,
-              height: 6,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.deepOrange,
-              ),
-            ),
-        ],
       ),
     );
   }

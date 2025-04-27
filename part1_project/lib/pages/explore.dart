@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:part1_project/pages/countryActivities.dart';
+import 'package:part2_project/pages/countryActivities.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -18,10 +18,10 @@ class _ExploreState extends State<Explore> {
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 CountryCard(countryName: 'Oman', imagePath: 'images/OM.jpg'),
                 CountryCard(countryName: 'Georgia', imagePath: 'images/GE.jpg'),
               ],
@@ -29,7 +29,7 @@ class _ExploreState extends State<Explore> {
             SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 CountryCard(countryName: 'Turkey', imagePath: 'images/TK.jpg'),
                 CountryCard(countryName: 'Iran', imagePath: 'images/IR.jpg'),
               ],
@@ -45,11 +45,7 @@ class CountryCard extends StatelessWidget {
   final String countryName;
   final String imagePath;
 
-  const CountryCard({
-    super.key,
-    required this.countryName,
-    required this.imagePath,
-  });
+  const CountryCard({super.key, required this.countryName, required this.imagePath,});
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +66,7 @@ class CountryCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            Text(
-              countryName,
+            Text(countryName,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             ElevatedButton(onPressed: (){

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AboutUsPage extends StatelessWidget {
-  const AboutUsPage({Key? key})
-      : super(key: key); // Added named 'key' parameter
+  const AboutUsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class AboutUsPage extends StatelessWidget {
               style: TextStyle(fontSize: 16),
             ),
             Text(
-              'Phone: +968 9099 1216',
+              'Developers: Tariq Al-shekili \nYaseen Al-khaboori \nMohammed Al-salmi',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 16),
@@ -69,7 +68,7 @@ class AboutUsPage extends StatelessWidget {
               children: [
                 FaIcon(FontAwesomeIcons.twitter, color: Colors.lightBlue),
                 SizedBox(width: 8),
-                Text('Twitter'),
+                Text('X (Twitter)'),
               ],
             ),
             SizedBox(height: 8),
